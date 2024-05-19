@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="vendor-dashboard">
+    <nav>
+      <ul>
+        <li><a href="#" id="dashboardLink">Dashboard</a></li>
+        <li><a href="#" id="submitSampleLink">Submit New Cloth Sample</a></li>
+      </ul>
+    </nav>
+    <div id="dashboard">
+      <h2>Acceptance and Rejection Rates</h2>
+      <!-- Add pie chart and bar graph here -->
+      <div id="acceptanceRates"></div>
+      <div id="rejectionRates"></div>
+    </div>
+    <div id="submitSample" style="display:none;">
+      <h2>Submit New Cloth Sample</h2>
+      <form id="submitSampleForm">
+        <input type="text" id="sampleReferenceId" placeholder="Sample Reference ID" required>
+        <input type="number" id="version" placeholder="Version" required>
+        <input type="text" id="style" placeholder="Style" required>
+        <input type="text" id="color" placeholder="Color" required>
+        <input type="number" id="sampleQuantity" placeholder="Sample Quantity" required>
+        <input type="text" id="season" placeholder="Season" required>
+        <input type="file" id="image" >
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <script src="js/vendor-dashboard.js"></script>
+</body>
+</html>

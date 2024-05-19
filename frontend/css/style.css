@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  nav {
+    width: 200px;
+    float: left;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  nav ul li {
+    margin: 10px 0;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  #dashboard, #submitSample, #submitQualityAssurance, #qualityAssuranceDashboard {
+    margin-left: 220px;
+    padding: 20px;
+  }
+  

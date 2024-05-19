@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buying House Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="buying-house-dashboard">
+    <nav>
+      <ul>
+        <li><a href="#" id="dashboardLink">Dashboard</a></li>
+        <li><a href="#" id="submitQualityAssuranceLink">Submit Quality Assurance</a></li>
+        <li><a href="#" id="qualityAssuranceDashboardLink">Quality Assurance Dashboard</a></li>
+      </ul>
+    </nav>
+    <div id="dashboard">
+      <h2>Acceptance and Rejection Rates</h2>
+      <!-- Add pie chart and bar graph here -->
+      <div id="acceptanceRates"></div>
+      <div id="rejectionRates"></div>
+    </div>
+    <div id="submitQualityAssurance" style="display:none;">
+      <h2>Submit Quality Assurance</h2>
+      <form id="submitQualityAssuranceForm">
+        <input type="text" id="sampleReferenceId" placeholder="Sample Reference ID" required>
+        <input type="text" id="qualityType" placeholder="Quality Type (BS/SS)" required>
+        <input type="text" id="status" placeholder="Status (approved/rejected)" required>
+        <input type="text" id="rejectionReason" placeholder="Rejection Reason" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div id="qualityAssuranceDashboard" style="display:none;">
+      <h2>Quality Assurance Details</h2>
+      <!-- Add quality assurance details here -->
+      <div id="qualityAssuranceDetails"></div>
+    </div>
+  </div>
+  <script src="js/buying-house-dashboard.js"></script>
+</body>
+</html>
