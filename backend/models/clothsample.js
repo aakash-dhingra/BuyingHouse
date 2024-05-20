@@ -1,8 +1,3 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-// backend/models/clothsample.js
 module.exports = (sequelize, DataTypes) => {
   const ClothSample = sequelize.define('ClothSample', {
     sample_id: {
@@ -31,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     image: {
-      type: DataTypes.BLOB
+      type: DataTypes.BLOB,
+      allowNull: true
     },
     status: {
       type: DataTypes.ENUM('pending', 'approved', 'rejected'),
@@ -52,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     season: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    quality_type: {
+      type: DataTypes.ENUM('BS', 'SS'),
       allowNull: false
     }
   }, {
