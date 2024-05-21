@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Cloth Sample</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="main">
+    <div class="navbar">
+        <ul>
+            <li><a href="vendor-dashboard.html">Dashboard</a></li>
+            <li><a href="submit-sample.html">Submit New Cloth Sample</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <h1>Submit New Cloth Sample</h1>
+            <form id="submitSampleForm">
+                <input type="text" id="sampleReferenceId" placeholder="Sample Reference ID" required>
+                <input type="number" id="version" placeholder="Version" required>
+                <input type="text" id="style" placeholder="Style" required>
+                <input type="text" id="color" placeholder="Color" required>
+                <input type="number" id="sampleQuantity" placeholder="Sample Quantity" required>
+                <input type="text" id="season" placeholder="Season" required>
+                <select id="subBrandId" required>
+                    <option value="" disabled selected>Select Sub-Brand</option>
+                    <!-- Populate with sub-brands -->
+                </select>
+                <select id="qualityType" required>
+                    <option value="" disabled selected>Select Quality Type</option>
+                    <option value="BS">BS</option>
+                    <option value="SS">SS</option>
+                </select>
+                <input type="file" id="image" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+    <script src="js/submit-sample.js"></script>
+</body>
+</html>
