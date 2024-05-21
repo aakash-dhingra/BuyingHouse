@@ -3,46 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buying House Dashboard</title>
+    <title>View Uploaded Samples</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  
-  <div class="main">
+    <div class="main">
     <div class="navbar">
         <ul>
-            <li><a href="buying-house-dashboard.html">Dashboard</a></li>
-            <li><a href="quality-assurance-dashboard.html">Quality Assurance Dashboard</a></li>
+            <li><a href="vendor-dashboard.html">Dashboard</a></li>
+            <li><a href="submit-sample.html">Submit New Cloth Sample</a></li>
+            <li><a href="view-samples.html">View Uploaded Samples</a></li>
             <li><button id="logoutButton" class="logout-button">Logout</button></li>
+
         </ul>
     </div>
+    
     <div class="container">
-        <h1 class="frontHeading">Buying House Dashboard</h1>
-        <p>Welcome to the Buying House Dashboard. Here you can view and manage cloth samples submitted by vendors.</p>
-        <table id="clothSamplesTable" class="table">
+        <h1>Uploaded Samples</h1>
+        <table id="samplesTable">
             <thead>
                 <tr>
                     <th>Sample ID</th>
                     <th>Reference ID</th>
                     <th>Version</th>
-                    <th>Vendor</th>
-                    <th>Sub-Brand</th>
                     <th>Style</th>
                     <th>Color</th>
                     <th>Sample Quantity</th>
                     <th>Season</th>
                     <th>Quality Type</th>
                     <th>Status</th>
-                    <th>Rejection Reason</th>
-                    <th>Defects</th>
-                    <th>Action</th>
+                    <th>Upload Date</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
     </div>
-  </div>
-    <script src="js/buying-house-dashboard.js"></script>
+</div>
+    <script src="js/view-samples.js"></script>
     <script src="js/navbar.js"></script>
 </body>
 </html>

@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vendor Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <div class="main">
-    <div class="navbar">
+  </head>
+  <body>
+    <div class="main">
+      <div class="navbar">
         <ul>
-            <li><a href="vendor-dashboard.html">Dashboard</a></li>
-            <li><a href="submit-sample.html">Submit New Cloth Sample</a></li>
+          <li><a href="vendor-dashboard.html">Dashboard</a></li>
+          <li><a href="submit-sample.html">Submit New Cloth Sample</a></li>
+          <li><a href="view-samples.html">View Uploaded Samples</a></li>
+          <li><button id="logoutButton" class="logout-button">Logout</button></li>
+
+          <!-- New Link -->
         </ul>
-    </div>
-    <div class="container">
+      </div>
+
+      <div class="container">
         <h1>Vendor Dashboard</h1>
-        <p>Welcome to the Vendor Dashboard. Here you can see your submission analytics and submit new cloth samples.</p>
+        <p>
+          Welcome to the Vendor Dashboard. Here you can see your submission
+          analytics and submit new cloth samples.
+        </p>
         <!-- Add your dashboard content here -->
         <div class="chartGraph">
-        <div class="chart-container">
+          <div class="chart-container">
             <canvas id="barChart"></canvas>
-        </div>
-        <div class="chart-container">
+          </div>
+          <div class="chart-container">
             <canvas id="pieChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <script src="js/vendor-dashboard.js"></script>
-</body>
+    <script src="js/navbar.js"></script>
+  </body>
 </html>

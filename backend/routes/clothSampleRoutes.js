@@ -17,6 +17,8 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, clothSampleController.createClothSample);
 router.get('/', authMiddleware, clothSampleController.getClothSamples);
+router.get('/vendor', authMiddleware, clothSampleController.getClothSamplesByVendor); //
 // Add other routes as needed
+// router.get('/vendor', authMiddleware, clothSampleController.getAllClothSamples);
 
 module.exports = router;

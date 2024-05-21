@@ -45,3 +45,44 @@ exports.getClothSamples = async (req, res) => {
     res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
   }
 };
+
+exports.getClothSamplesByVendor = async (req, res) => {
+  try {
+    const vendorId = req.query.vendor_id;
+
+    const samples = await db.ClothSample.findAll({
+      where: { vendor_id: vendorId },
+      include: [db.Vendor, db.SubBrand]
+    });
+
+    res.status(200).json(samples);
+  } catch (error) {
+    console.error('Error fetching samples:', error);
+    res.status(500).json({ message: 'Error fetching samples', error: error.message });
+  }
+};
+
+exports.getAllClothSamples = async (req, res) => {
+  try {
+      const { vendor_id } = req.query;
+
+      // Debugging output to check vendor_id received
+      console.log('Vendor ID:', vendor_id);
+
+      const queryOptions = {};
+
+      if (vendor_id) {
+          queryOptions.where = { vendor_id: vendor_id };
+      }
+
+      const clothSamples = await db.ClothSample.findAll(queryOptions);
+
+      // Debugging output to check cloth samples fetched
+      console.log('Cloth Samples:', clothSamples);
+
+      res.status(200).json(clothSamples);
+  } catch (error) {
+      console.error('Error fetching cloth samples:', error);
+      res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+  }
+};

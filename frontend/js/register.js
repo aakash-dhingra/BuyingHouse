@@ -1,3 +1,12 @@
+document.getElementById('registerRole').addEventListener('change', (e) => {
+    const vendorNameField = document.getElementById('vendorName');
+    if (e.target.value === 'vendor') {
+      vendorNameField.style.display = 'block';
+    } else {
+      vendorNameField.style.display = 'none';
+    }
+  });
+
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;

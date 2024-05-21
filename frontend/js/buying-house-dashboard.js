@@ -105,6 +105,7 @@ async function displayClothSamples(clothSamples) {
               sample_id: sample.sample_id,
               status,
               rejection_reason: status === 'rejected' ? rejection_reason : null,
+
               quality_type: sample.quality_type, // Include quality_type from the sample data
               defects: status === 'rejected' ? [defect_id] : []
           };

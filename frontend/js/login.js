@@ -12,7 +12,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     });
     
     const result = await response.json();
+   
     if (result.message === 'Login successful') {
+        console.log(result.user);
         localStorage.setItem('user', JSON.stringify(result.user));
         if(result.user.role === 'vendor'){
         window.location.href = 'vendor-dashboard.html';

@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quality Assurance Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buying House Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Load Chart.js -->
+  </head>
+  <body>
     <div class="main">
-    <div class="navbar">
+      <div class="navbar">
         <ul>
-            <li><a href="buying-house-dashboard.html">Dashboard</a></li>
-            <li><a href="quality-assurance-dashboard.html">Quality Assurance Dashboard</a></li>
+          <li><a href="buying-house-dashboard.html">Dashboard</a></li>
+          <li>
+            <a href="quality-assurance-dashboard.html"
+              >Quality Assurance Dashboard</a
+            >
+          </li>
+          <li><button id="logoutButton" class="logout-button">Logout</button></li>
+
         </ul>
+        
+      </div>
+      
+      <div class="container">
+        <div class="buyingdash">
+          <h1>Buying House Dashboard</h1>
+          <div class="chart-container">
+            <canvas id="acceptanceRejectionBySubBrand"></canvas>
+        </div>
+          <div class="chart-container">
+            <canvas id="defectsByVendor"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="acceptanceByQualityType"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="container">
-        <h1>Quality Assurance Dashboard</h1>
-        <p>Welcome to the Quality Assurance Dashboard. Here you can view and manage quality assurance for cloth samples.</p>
-        <table id="qualityAssuranceTable">
-            <thead>
-                <tr>
-                    <th>Sample ID</th>
-                    <th>Status</th>
-                    <th>Rejection Reason</th>
-                    <th>Defects</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
     <script src="js/quality-assurance-dashboard.js"></script>
-</body>
+    <script src="js/navbar.js"></script>
+    <!-- Your custom JS -->
+  </body>
 </html>
