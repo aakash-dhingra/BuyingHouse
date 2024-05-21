@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Import routes
 // const userRoutes = require('./routes/userRoutes');
-// const vendorRoutes = require('./routes/vendorRoutes');
+const vendorRoutes = require('./routes/vendorRoutes');
 const subBrandRoutes = require('./routes/subBrandsRoutes');
 const clothSampleRoutes = require('./routes/clothSampleRoutes');
 const defectRoutes = require('./routes/defectRoutes');
@@ -36,11 +36,11 @@ const authRoutes = require('./routes/authRoutes');
 app.use(cors());
 // Use routes
 // app.use('/users', userRoutes);
-// app.use('/vendors', vendorRoutes);
+app.use('/vendors', vendorRoutes);
 app.use('/subbrands', subBrandRoutes);
 app.use('/clothsamples', clothSampleRoutes);
 app.use('/defects', defectRoutes);
-app.use('/qualityassurance', qualityAssuranceRoutes);
+app.use('/qualityassurances', qualityAssuranceRoutes);
 app.use('/qualityassurancedefects', qualityAssuranceDefectRoutes);
 app.use('/auth', authRoutes);
 
