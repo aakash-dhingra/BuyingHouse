@@ -19,7 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         if(result.user.role === 'vendor'){
         window.location.href = 'vendor-dashboard.html';
         }else{
-            window.location.href = 'buying-house-dashboard.html'; 
+            window.location.href = 'quality-assurance-dashboard.html'; 
         }
     } else {
         alert(result.message);

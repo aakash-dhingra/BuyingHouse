@@ -16,7 +16,8 @@ const clothSampleController = require('../controllers/clothSampleController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, clothSampleController.createClothSample);
-router.get('/', authMiddleware, clothSampleController.getClothSamples);
+router.get('/', authMiddleware, clothSampleController.getAllClothSamples);
+router.get('/pending', authMiddleware, clothSampleController.getPendingClothSamples);
 router.get('/vendor', authMiddleware, clothSampleController.getClothSamplesByVendor); //
 // Add other routes as needed
 // router.get('/vendor', authMiddleware, clothSampleController.getAllClothSamples);

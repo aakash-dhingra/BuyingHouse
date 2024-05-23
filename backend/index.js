@@ -52,7 +52,7 @@ swaggerSetup(app);
 
 // Serve the main HTML file for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/login.html'));
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 

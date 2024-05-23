@@ -132,13 +132,93 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: url('images/97752262.cms') no-repeat center center/cover;
+    background-attachment: fixed;
 }
 
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 10, 1, 0.7); /* Adjust the transparency here */
+    z-index: -1;
+}
+
+.parent{
+    height: 100vh;
+}
+.heightAdjust{
+    height: 86%;
+}
+.paretoHeading{
+    text-align: center;
+    background-color: #d8d1d1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    /* border-radius: 8px; */
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
 .container {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    /* margin: 20px auto; */
     padding: 20px;
+    /* height: 88%; */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* border-radius: 8px; */
+}
+
+.container h1{
+    text-align: center;
+}
+
+.sample-form {
+    background-color: #fff;
+    /* padding: 20px; */
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.sample-form h2 {
+    margin-top: 0;
+}
+
+.sample-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.sample-form select, .sample-form textarea, .sample-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.sample-form button {
+    background-color: #4b4b4b;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sample-form button:hover {
+    background-color: #3a3a3a;
 }
 
 .main{
@@ -149,7 +229,7 @@ body {
 }
 .navbar {
     background-color: #4b4b4b;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -168,18 +248,46 @@ body {
     justify-content: center;
 }
 
+
 .navbar ul li {
     margin-left: 20px;
     padding: 30px;
 }
 
-.navbar ul li a {
-    color: white;
-    text-decoration: none;
+.navbar ul li ul {
+    list-style-type: none;
+    padding-left: 20px;
+    display: none;
 }
 
-.navbar ul li a:hover,  .navbar ul li button:hover {
-    text-decoration: underline;
+.navbar ul li a,.navbar ul li button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* font-size: 18px;
+    padding: 10px 20px; */
+    text-align: center;
+    /* display: block; */
+    /* width: 100%; */
+}
+
+.navbar ul li a:hover, .navbar ul li button:hover {
+    background-color: #3a3a3a;
+}
+
+.navbar ul li a.collapsible::after {
+    content: '\25B6'; /* Right-pointing arrow */
+    float: right;
+}
+
+.navbar ul li a.active::after {
+    content: '\25BC'; /* Down-pointing arrow */
+}
+
+.navbar ul li ul.active {
+    display: block;
 }
 
 .header {
@@ -265,6 +373,10 @@ tr:hover {
     text-align: center;
 }
 
+.pendindContainer{
+    width: 90%;
+}
+
 .chartGraph{
     display: flex;
     justify-content: space-around;
@@ -279,13 +391,21 @@ tr:hover {
 }
 
 .buyingdash{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-content: space-around; */
+    align-items: center;
+    height: 90%;
+    align-content: center;
 }
 
 .chart-container{
     height: 300px;
+    width: 41%;
 }
+
+
 
 
 .top-navbar {
@@ -304,6 +424,11 @@ tr:hover {
 .profile-menu {
     position: relative;
     display: inline-block;
+}
+span{
+    text-align: center;
+    display: block;
+    padding-top: 10px;
 }
 
 .profile-icon {
@@ -334,4 +459,32 @@ tr:hover {
 
 .dropdown-content button:hover {
     background-color: #ddd;
+}
+
+.dropdown-checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-checkbox-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-checkbox-content label {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.dropdown-checkbox-content input {
+    margin-right: 10px;
+}
+
+.dropdown-checkbox:hover .dropdown-checkbox-content {
+    display: block;
 }

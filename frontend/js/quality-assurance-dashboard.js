@@ -13,18 +13,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         displayAcceptanceRejectionChart(acceptanceRejectionData);
 
-        const defectsByVendorResponse = await fetch('/qa-dashboard/defects-by-vendor', {
+        // const defectsByVendorResponse = await fetch('/qa-dashboard/defects-by-vendor', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        // const defectsByVendorData = await defectsByVendorResponse.json();
+        
+        const response = await fetch('/qualityassurances/vendor-quality-stats', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        const defectsByVendorData = await defectsByVendorResponse.json();
+
+        const stats = await response.json();
+        console.log('Vendor Quality Stats:', stats);
+         // Check if the response is an array
+         if (Array.isArray(stats)) {
+            displayStats(stats);
+        } else {
+            console.error('Expected an array but got:', stats);
+        }
+
+
+        // // Log the response data for debugging
+        // console.log('Defects By Vendor Data:', JSON.stringify(defectsByVendorData, null, 2));
         
-        // Log the response data for debugging
-        console.log('Defects By Vendor Data:', JSON.stringify(defectsByVendorData, null, 2));
-        
-        displayDefectsByVendorChart(defectsByVendorData);
+        // displayDefectsByVendorChart(stats);
 
         const acceptanceByQualityTypeResponse = await fetch('/qa-dashboard/acceptance-by-quality-type', {
             method: 'GET',
@@ -34,10 +51,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         const acceptanceByQualityTypeData = await acceptanceByQualityTypeResponse.json();
         displayAcceptanceByQualityTypeChart(acceptanceByQualityTypeData);
+
+
+        const approvalRejectionResponse = await fetch('/qualityassurances/approval-rejection-stats', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const approvalRejectionData = await approvalRejectionResponse.json();
+        displayApprovalRejectionChart(approvalRejectionData);
     } catch (error) {
         console.error('Error fetching data for charts:', error);
     }
 });
+
+function displayApprovalRejectionChart(data) {
+    const ctx = document.getElementById('approvalRejectionChart').getContext('2d');
+
+    const labels = data.map(d => d.status.charAt(0).toUpperCase() + d.status.slice(1));
+    const counts = data.map(d => d.count);
+
+    const approvalRejectionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: ['Number of Samples'],
+                data: counts,
+                // backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                // borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                backgroundColor: ['#4caf50', '#f44336'],
+                borderColor: ['#388e3c','#d32f2f'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Samples'
+                    }
+                }]
+            },
+            responsive: true,
+            // maintainAspectRatio: false
+        }
+    });
+}
 
 function displayAcceptanceRejectionChart(data) {
     if (!data || !Array.isArray(data)) {
@@ -135,6 +200,22 @@ function displayDefectsByVendorChart(data) {
     });
 }
 
+function displayStats(stats) {
+    const tableBody = document.querySelector('#vendorStatsTable tbody');
+    tableBody.innerHTML = '';
+
+    stats.forEach(stat => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${stat.vendor_name}</td>
+            <td>${stat.approved_count}</td>
+            <td>${stat.rejected_count}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
 function displayAcceptanceByQualityTypeChart(data) {
     if (!data || !Array.isArray(data)) {
         console.error('Invalid data format for acceptance by quality type chart:', data);
@@ -180,3 +261,4 @@ function displayAcceptanceByQualityTypeChart(data) {
         }
     });
 }
+

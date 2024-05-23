@@ -62,24 +62,115 @@ exports.getClothSamplesByVendor = async (req, res) => {
   }
 };
 
+// exports.getAllClothSamples = async (req, res) => {
+//   try {
+//       const { vendor_id } = req.query;
+
+//       // Debugging output to check vendor_id received
+//       console.log('Vendor ID:', vendor_id);
+
+//       const queryOptions = {};
+
+//       if (vendor_id) {
+//           queryOptions.where = { vendor_id: vendor_id };
+//       }
+
+//       const clothSamples = await db.ClothSample.findAll(queryOptions);
+
+//       // Debugging output to check cloth samples fetched
+//       console.log('Cloth Samples:', clothSamples);
+
+//       res.status(200).json(clothSamples);
+//   } catch (error) {
+//       console.error('Error fetching cloth samples:', error);
+//       res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+//   }
+// };
+
+// exports.getAllClothSamples = async (req, res) => {
+//   try {
+//       const { status, reference_id } = req.query;
+//       const queryOptions = {
+//         include: [
+//             {
+//                 model: db.Vendor,
+//                 attributes: ['name']
+//             }
+//         ],
+//         order: [['version', 'DESC']]
+//     };
+
+//       if (status) {
+//           queryOptions.where = { status: status };
+//       }
+//       if (reference_id) {
+//           queryOptions.where = { ...queryOptions.where, sample_reference_id: reference_id };
+//       }
+
+//       const clothSamples = await db.ClothSample.findAll(queryOptions);
+//       res.status(200).json(clothSamples);
+//   } catch (error) {
+//       console.error('Error fetching cloth samples:', error);
+//       res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+//   }
+// };
 exports.getAllClothSamples = async (req, res) => {
   try {
-      const { vendor_id } = req.query;
+      const { status, reference_id } = req.query;
+      const queryOptions = {
+          attributes: ['sample_reference_id', 'style', 'color', 'season', 'image', 'sample_quantity', 'quality_type', 'upload_date'],
+          include: [
+              {
+                  model: db.Vendor,
+                  attributes: ['name']
+              },
+              {
+                  model: db.QualityAssurance,
+                  attributes: ['checked_by'],
+                  include: [
+                      {
+                          model: db.User,
+                          as: 'checkedByUser',
+                          attributes: ['username']
+                      }
+                  ]
+              }
+          ],
+          order: [['version', 'DESC']]
+      };
 
-      // Debugging output to check vendor_id received
-      console.log('Vendor ID:', vendor_id);
-
-      const queryOptions = {};
-
-      if (vendor_id) {
-          queryOptions.where = { vendor_id: vendor_id };
+      if (status) {
+          queryOptions.where = { status: status };
+      }
+      if (reference_id) {
+          queryOptions.where = { ...queryOptions.where, sample_reference_id: reference_id };
       }
 
       const clothSamples = await db.ClothSample.findAll(queryOptions);
+       // Convert BLOB data to base64
+       clothSamples.forEach(sample => {
+        if (sample.image) {
+            sample.image = sample.image.toString('base64');
+        }
+    });
+      res.status(200).json(clothSamples);
+  } catch (error) {
+      console.error('Error fetching cloth samples:', error);
+      res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+  }
+};
 
-      // Debugging output to check cloth samples fetched
-      console.log('Cloth Samples:', clothSamples);
+exports.getPendingClothSamples = async (req, res) => {
+  try {
+      const { status } = req.query;
+      const queryOptions = {};
 
+      if (status) {
+          queryOptions.where = { status: status };
+      }
+      
+
+      const clothSamples = await db.ClothSample.findAll(queryOptions);
       res.status(200).json(clothSamples);
   } catch (error) {
       console.error('Error fetching cloth samples:', error);
