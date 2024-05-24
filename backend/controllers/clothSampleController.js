@@ -117,6 +117,8 @@ exports.getClothSamplesByVendor = async (req, res) => {
 exports.getAllClothSamples = async (req, res) => {
   try {
       const { status, reference_id } = req.query;
+      const limit = parseInt(req.query.limit) || 10;
+      const offset = parseInt(req.query.offset) || 0;
       const queryOptions = {
           attributes: ['sample_reference_id', 'style', 'color', 'season', 'image', 'sample_quantity', 'quality_type', 'upload_date'],
           include: [
@@ -136,7 +138,9 @@ exports.getAllClothSamples = async (req, res) => {
                   ]
               }
           ],
-          order: [['version', 'DESC']]
+          // order: [['version', 'DESC']],
+          limit: limit,
+          offset: offset
       };
 
       if (status) {
@@ -160,20 +164,54 @@ exports.getAllClothSamples = async (req, res) => {
   }
 };
 
-exports.getPendingClothSamples = async (req, res) => {
-  try {
-      const { status } = req.query;
-      const queryOptions = {};
+// exports.getPendingClothSamples = async (req, res) => {
+//   try {
+//       const { status } = req.query;
+//       const queryOptions = {};
 
-      if (status) {
-          queryOptions.where = { status: status };
-      }
+//       if (status) {
+//           queryOptions.where = { status: status };
+//       }
       
 
-      const clothSamples = await db.ClothSample.findAll(queryOptions);
-      res.status(200).json(clothSamples);
+//       const clothSamples = await db.ClothSample.findAll(queryOptions);
+//       res.status(200).json(clothSamples);
+//   } catch (error) {
+//       console.error('Error fetching cloth samples:', error);
+//       res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+//   }
+// };
+
+exports.getPendingClothSamples = async (req, res) => {
+  try {
+      const pendingSamples = await db.ClothSample.findAll({
+          where: { status: 'pending' },
+          attributes: ['sample_id', 'sample_reference_id']
+      });
+      res.status(200).json(pendingSamples);
   } catch (error) {
-      console.error('Error fetching cloth samples:', error);
-      res.status(500).json({ message: 'Error fetching cloth samples', error: error.message });
+      console.error('Error fetching pending samples:', error);
+      res.status(500).json({ message: 'Error fetching pending samples', error: error.message });
+  }
+};
+
+exports.getClothSampleByReferenceId = async (req, res) => {
+  const { reference_id } = req.params;
+
+  try {
+      const clothSample = await db.ClothSample.findOne({
+          where: { sample_reference_id: reference_id },
+          order: [['version', 'DESC']],
+          attributes: ['sample_id', 'sample_reference_id', 'version']
+      });
+
+      if (!clothSample) {
+          return res.status(404).json({ message: 'Cloth sample not found' });
+      }
+
+      res.status(200).json(clothSample);
+  } catch (error) {
+      console.error('Error fetching cloth sample:', error);
+      res.status(500).json({ message: 'Error fetching cloth sample', error: error.message });
   }
 };

@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../models');
 const QualityAssurance = db.QualityAssurance;
 const { sequelize } = require('../models');
@@ -24,81 +25,141 @@ exports.rejectSample = async (req, res) => {
 };
 
 
-exports.updateQualityAssurance = async (req, res) => {
-  try {
-    const { sample_id, status, rejection_reason, quality_type, defects } = req.body;
+// exports.updateQualityAssurance = async (req, res) => {
+//   try {
+//     const { sample_id, status, rejection_reason, quality_type, defects } = req.body;
 
-    // Check for required fields
-    if (!sample_id || !status || !quality_type || (status === 'rejected' && (!rejection_reason || defects.length === 0))) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
+//     // Check for required fields
+//     if (!sample_id || !status || !quality_type || (status === 'rejected' && (!rejection_reason || defects.length === 0))) {
+//       return res.status(400).json({ message: 'Missing required fields' });
+//     }
 
-    // Create or update the quality assurance record
-    const qualityAssurance = await db.QualityAssurance.create({
-      sample_id,
-      status,
-      rejection_reason,
-      quality_type,
-      checked_by: req.session.user.user_id,
-      checked_date: new Date()
-    });
+//     // Create or update the quality assurance record
+//     const qualityAssurance = await db.QualityAssurance.create({
+//       sample_id,
+//       status,
+//       rejection_reason,
+//       quality_type,
+//       checked_by: req.session.user.user_id,
+//       checked_date: new Date()
+//     });
 
-  // Handle defects if the status is rejected
-  if (status === 'rejected' && defects.length > 0) {
-    const defectEntries = defects.map(defect_id => ({
-      qa_id: qualityAssurance.qa_id,
-      defect_id
-    }));
-    await db.QualityAssuranceDefect.bulkCreate(defectEntries);
-  }
+//   // Handle defects if the status is rejected
+//   if (status === 'rejected' && defects.length > 0) {
+//     const defectEntries = defects.map(defect_id => ({
+//       qa_id: qualityAssurance.qa_id,
+//       defect_id
+//     }));
+//     await db.QualityAssuranceDefect.bulkCreate(defectEntries);
+//   }
 
-  // Update the ClothSample status if approved
-  if (status === 'approved') {
-    await db.ClothSample.update({ status: 'approved' }, { where: { sample_id } });
-  }
+//   // Update the ClothSample status if approved
+//   if (status === 'approved') {
+//     await db.ClothSample.update({ status: 'approved' }, { where: { sample_id } });
+//   }
 
-  res.status(200).json({ message: 'Quality assurance updated successfully' });
-} catch (error) {
-  console.error('Error updating quality assurance:', error);
-  res.status(500).json({ message: 'Error updating quality assurance', error: error.message });
-}
-};
+//   res.status(200).json({ message: 'Quality assurance updated successfully' });
+// } catch (error) {
+//   console.error('Error updating quality assurance:', error);
+//   res.status(500).json({ message: 'Error updating quality assurance', error: error.message });
+// }
+// };
 
-exports.updateQualityAssurance = async (req, res) => {
-  try {
-      const { reference_id, quality_type, status, rejection_reason } = req.body;
+// exports.updateQualityAssurance = async (req, res) => {
+//   try {
+//       const { reference_id, quality_type, status, rejection_reason } = req.body;
 
-      // Fetch the latest version sample with the given reference ID
-      const latestSample = await db.ClothSample.findOne({
-          where: { sample_reference_id: reference_id },
-          order: [['version', 'DESC']]
-      });
+//       // Fetch the latest version sample with the given reference ID
+//       const latestSample = await db.ClothSample.findOne({
+//           where: { sample_reference_id: reference_id },
+//           order: [['version', 'DESC']]
+//       });
 
-      if (latestSample) {
-          const qaEntry = await db.QualityAssurance.create({
-              sample_id: latestSample.sample_id,
-              quality_type: quality_type,
-              status: status,
-              rejection_reason: rejection_reason,
-              checked_by: req.session.user.user_id,
-              checked_date: new Date()
-          });
+//       if (latestSample) {
+//           const qaEntry = await db.QualityAssurance.create({
+//               sample_id: latestSample.sample_id,
+//               quality_type: quality_type,
+//               status: status,
+//               rejection_reason: rejection_reason,
+//               checked_by: req.session.user.user_id,
+//               checked_date: new Date()
+//           });
 
-          latestSample.status = status;
-          await latestSample.save();
+//           latestSample.status = status;
+//           await latestSample.save();
           
-  // Handle defects if the status is rejected
-          if (status === 'rejected' && defects.length > 0) {
-            const defectEntries = defects.map(defect_id => ({
+//   // Handle defects if the status is rejected
+//           if (status === 'rejected' && defects.length > 0) {
+//             const defectEntries = defects.map(defect_id => ({
+//               qa_id: qualityAssurance.qa_id,
+//               defect_id
+//             }));
+//             await db.QualityAssuranceDefect.bulkCreate(defectEntries);
+//           }
+//           res.status(200).json({ message: 'Quality assurance updated successfully', qaEntry });
+//       } else {
+//           res.status(404).json({ message: 'Sample not found' });
+//       }
+//   } catch (error) {
+//       console.error('Error updating quality assurance:', error);
+//       res.status(500).json({ message: 'Error updating quality assurance', error: error.message });
+//   }
+// };
+
+
+exports.updateQualityAssurance = async (req, res) => {
+  const { sample_id, status, rejection_reason, defects, quality_type } = req.body;
+
+  try {
+      // Find the quality assurance record
+      const qualityAssurance = await db.QualityAssurance.findOne({ where: { sample_id, quality_type } });
+
+      if (!qualityAssurance) {
+          return res.status(404).json({ message: 'Quality assurance record not found' });
+      }
+
+      // Update quality assurance status and reason
+      qualityAssurance.status = status;
+      qualityAssurance.rejection_reason = rejection_reason;
+      await qualityAssurance.save();
+
+      const clothSample = await db.ClothSample.findOne({where:{sample_id}});
+      if(clothSample){
+        console.log(clothSample);
+        await db.ClothSample.update({ status: 'rejected' }, { where: { sample_id } });
+      }
+
+      // If rejected, update defects
+      if (status === 'rejected' && defects && defects.length > 0) {
+          // Delete existing defects
+          // await db.QualityAssuranceDefects.destroy({ where: { qa_id: qualityAssurance.qa_id } });
+
+          // Insert new defects
+          const defectRecords = defects.map(defect_id => ({
               qa_id: qualityAssurance.qa_id,
               defect_id
-            }));
-            await db.QualityAssuranceDefect.bulkCreate(defectEntries);
-          }
-          res.status(200).json({ message: 'Quality assurance updated successfully', qaEntry });
-      } else {
-          res.status(404).json({ message: 'Sample not found' });
+          }));
+
+          const defectIds = defectRecords.map(record => record.defect_id);
+          
+          // console.log("defectsRecords   :",defectIds);
+        //   for (const { qa_id, defect_id } of defectRecords) {
+        //     console.log("TESTTTTTTTTTT    :",qa_id,defect_id);
+        //     await db.QualityAssuranceDefects.create({
+        //         qa_id: qa_id,
+        //         defect_id: defect_id
+        //     });
+        // }
+         // Insert new defects using native SQL query
+         const values = defects.map(defect_id => `(${qualityAssurance.qa_id}, ${defect_id})`).join(', ');
+         const insertQuery = `
+             INSERT INTO "QualityAssuranceDefects" ("qa_id", "defect_id")
+             VALUES ${values}
+         `;
+         await sequelize.query(insertQuery);
       }
+
+      res.status(200).json({ message: 'Quality assurance updated successfully' });
   } catch (error) {
       console.error('Error updating quality assurance:', error);
       res.status(500).json({ message: 'Error updating quality assurance', error: error.message });
@@ -184,5 +245,36 @@ exports.getApprovalRejectionStats = async (req, res) => {
   } catch (error) {
       console.error('Error fetching approval and rejection stats:', error);
       res.status(500).json({ message: 'Error fetching approval and rejection stats', error: error.message });
+  }
+};
+
+
+exports.getVendorQualityStatsPaginated = async (req, res) => {
+  const limit = 3;
+  const offset = parseInt(req.query.offset) || 0;
+
+  try {
+      const query = `
+          SELECT 
+              v.name AS vendor_name,
+              SUM(CASE WHEN cs.status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
+              SUM(CASE WHEN cs.status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count
+          FROM 
+              "ClothSamples" cs
+          JOIN 
+              "Vendors" v ON cs.vendor_id = v.vendor_id
+          GROUP BY 
+              v.name
+          LIMIT ${limit} OFFSET ${offset}
+      `;
+
+      const stats = await sequelize.query(query, {
+          type: sequelize.QueryTypes.SELECT
+      });
+
+      res.status(200).json(stats);
+  } catch (error) {
+      console.error('Error fetching paginated vendor quality stats:', error);
+      res.status(500).json({ message: 'Error fetching paginated vendor quality stats', error: error.message });
   }
 };

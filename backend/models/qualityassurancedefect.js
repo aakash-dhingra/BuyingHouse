@@ -7,11 +7,18 @@ module.exports = (sequelize, DataTypes) => {
   const QualityAssuranceDefect = sequelize.define('QualityAssuranceDefect', {
     qa_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,references: {
+        model: 'QualityAssurances',
+        key: 'qa_id'
+    }
     },
     defect_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Defects',
+        key: 'defect_id'
+    }
     }
   }, {
     tableName: 'QualityAssuranceDefects',

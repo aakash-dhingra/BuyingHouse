@@ -78,14 +78,35 @@ function populateReferenceIdDropdown(samples) {
 //     });
 // }
 
+// function populateDefectDropdown(defects) {
+//     const defectDropdown = document.getElementById('defectsDropdown');
+//     defects.forEach(defect => {
+//         const label = document.createElement('label');
+//         label.innerHTML = `<input type="checkbox" value="${defect.defect_id}"> ${defect.name}`;
+//         defectDropdown.appendChild(label);
+//     });
+// }
+
 function populateDefectDropdown(defects) {
-    const defectDropdown = document.getElementById('defectsDropdown');
+    const defectsDropdown = document.getElementById('defectsDropdown');
     defects.forEach(defect => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = defect.defect_id;
+        checkbox.id = `defect-${defect.defect_id}`;
+
         const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" value="${defect.defect_id}"> ${defect.name}`;
-        defectDropdown.appendChild(label);
+        label.htmlFor = checkbox.id;
+        label.textContent = defect.name;
+
+        const div = document.createElement('div');
+        div.appendChild(checkbox);
+        div.appendChild(label);
+
+        defectsDropdown.appendChild(div);
     });
 }
+
 
 function populateForm(sample) {
     document.getElementById('vendorName').value = sample.Vendor.name;
@@ -98,35 +119,55 @@ function populateForm(sample) {
 document.getElementById('pendingSampleForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    
     const form = e.target;
+    // const form = event.target;
     const referenceId = form.referenceId.value;
-    const qualityType = form.qualityType.value;
-    const status = form.status.value;
-    const rejectionReason = form.rejectionReason.value;
-    const defects = Array.from(form.defects.selectedOptions).map(option => option.value);
 
     try {
+        const sampleResponse = await fetch(`/clothsamples/reference/${referenceId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!sampleResponse.ok) {
+            throw new Error('Error fetching sample');
+        }
+
+        const sampleData = await sampleResponse.json();
+        console.log("sampleData  :",sampleData);
+        const sampleId = sampleData.sample_id;
+
+        const selectedDefects = Array.from(document.querySelectorAll('#defectsDropdown input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
+
+        // Construct the form data to be sent to the server
+        const formData = {
+            sample_id: sampleId,
+            status: form.status.value,
+            rejection_reason: form.rejectionReason.value,
+            quality_type: form.qualityType.value,
+            defects: selectedDefects
+        };
+
+        // Send the form data to the server
         const response = await fetch('/qualityassurances/update', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                reference_id: referenceId,
-                quality_type: qualityType,
-                status: status,
-                rejection_reason: rejectionReason,
-                defects: defects
-            })
+            body: JSON.stringify(formData)
         });
 
         if (response.ok) {
-            alert('Sample updated successfully');
-            form.reset();
+            alert("Successfully Submitted");
         } else {
-            alert('Error updating sample');
+            console.error('Error submitting form:', await response.text());
         }
     } catch (error) {
-        console.error('Error updating sample:', error);
+        console.error('Error fetching sample or submitting form:', error);
     }
 });
+

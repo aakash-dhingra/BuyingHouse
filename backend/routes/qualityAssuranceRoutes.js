@@ -10,6 +10,7 @@ router.post('/update', authMiddleware, qualityAssuranceController.updateQualityA
 router.get('/vendor-quality-stats', authMiddleware,qualityAssuranceController.getVendorQualityStats);
 router.get('/defects-vendor-wise', authMiddleware,qualityAssuranceController.getDefectsVendorWise);
 router.get('/approval-rejection-stats',authMiddleware, qualityAssuranceController.getApprovalRejectionStats);
+router.get('/vendor-quality-stats-paginated', qualityAssuranceController.getVendorQualityStatsPaginated);
 
 
 

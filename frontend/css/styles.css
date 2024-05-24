@@ -151,7 +151,7 @@ body::before {
 }
 
 .parent{
-    height: 100vh;
+    height: 100%;
 }
 .heightAdjust{
     height: 86%;
@@ -348,6 +348,17 @@ table {
     margin-top: 20px;
 }
 
+#vendorStatsTable{
+    margin: 5px;
+}
+
+.pagination{
+    display: flex;
+    /* border: 1px solid red; */
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
 table, th, td {
     border: 1px solid #ddd;
 }
@@ -396,7 +407,7 @@ tr:hover {
     justify-content: center;
     /* align-content: space-around; */
     align-items: center;
-    height: 90%;
+    /* height: 90%; */
     align-content: center;
 }
 
