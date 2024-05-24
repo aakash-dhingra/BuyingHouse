@@ -1,0 +1,501 @@
+/* body {
+    font-family: Arial, sans-serif;
+  }
+  
+  nav {
+    width: 200px;
+    float: left;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  nav ul li {
+    margin: 10px 0;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  #dashboard, #submitSample, #submitQualityAssurance, #qualityAssuranceDashboard {
+    margin-left: 220px;
+    padding: 20px;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f1e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    text-align: center;
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.login-header img.logo {
+    width: 80px;
+    margin-bottom: 20px;
+}
+
+.login-header h1 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #4b4b4b;
+}
+
+.login-header p {
+    font-size: 0.9em;
+    color: #6b6b6b;
+}
+
+.input-group {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4b4b4b;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.input-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.login-button {
+    background-color: #4b4b4b;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.login-button:hover {
+    background-color: #3a3a3a;
+}
+
+.signup-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.signup-link a {
+    color: #4b4b4b;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    margin-top: 20px;
+    color: #4b4b4b;
+} */
+
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f1e6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background: url('images/97752262.cms') no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 10, 1, 0.7); /* Adjust the transparency here */
+    z-index: -1;
+}
+
+.parent{
+    height: 100%;
+}
+.heightAdjust{
+    height: 86%;
+}
+.paretoHeading{
+    text-align: center;
+    background-color: #d8d1d1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    /* border-radius: 8px; */
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
+.container {
+    width: 100%;
+    max-width: 1200px;
+    /* margin: 20px auto; */
+    padding: 20px;
+    /* height: 88%; */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* border-radius: 8px; */
+}
+
+.container h1{
+    text-align: center;
+}
+
+.sample-form {
+    background-color: #fff;
+    /* padding: 20px; */
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.sample-form h2 {
+    margin-top: 0;
+}
+
+.sample-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.sample-form select, .sample-form textarea, .sample-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.sample-form button {
+    background-color: #4b4b4b;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sample-form button:hover {
+    background-color: #3a3a3a;
+}
+
+.main{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.navbar {
+    background-color: #4b4b4b;
+    /* padding: 10px 20px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 10%;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: baseline;
+    justify-content: center;
+}
+
+
+.navbar ul li {
+    margin-left: 20px;
+    padding: 30px;
+}
+
+.navbar ul li ul {
+    list-style-type: none;
+    padding-left: 20px;
+    display: none;
+}
+
+.navbar ul li a,.navbar ul li button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* font-size: 18px;
+    padding: 10px 20px; */
+    text-align: center;
+    /* display: block; */
+    /* width: 100%; */
+}
+
+.navbar ul li a:hover, .navbar ul li button:hover {
+    background-color: #3a3a3a;
+}
+
+.navbar ul li a.collapsible::after {
+    content: '\25B6'; /* Right-pointing arrow */
+    float: right;
+}
+
+.navbar ul li a.active::after {
+    content: '\25BC'; /* Down-pointing arrow */
+}
+
+.navbar ul li ul.active {
+    display: block;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header img {
+    width: 150px;
+}
+
+.header h1 {
+    margin: 0;
+    color: #4b4b4b;
+}
+
+
+.form-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="number"],
+.form-container input[type="file"],
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-container button {
+    background-color: #4b4b4b;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-container button:hover {
+    background-color: #3a3a3a;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#vendorStatsTable{
+    margin: 5px;
+}
+
+.pagination{
+    display: flex;
+    /* border: 1px solid red; */
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.frontHeading{
+    text-align: center;
+}
+
+.pendindContainer{
+    width: 90%;
+}
+
+.chartGraph{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+
+#pieChart,#barChart{
+    height: 500px;
+    width: 70%;
+}
+
+.buyingdash{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-content: space-around; */
+    align-items: center;
+    /* height: 90%; */
+    align-content: center;
+}
+
+.chart-container{
+    height: 300px;
+    width: 41%;
+}
+
+
+
+
+.top-navbar {
+    width: 100%;
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-navbar .logo {
+    width: 100px;
+}
+
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+span{
+    text-align: center;
+    display: block;
+    padding-top: 10px;
+}
+
+.profile-icon {
+    width: 40px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 12px 16px;
+    text-align: left;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
+
+.dropdown-checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-checkbox-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-checkbox-content label {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.dropdown-checkbox-content input {
+    margin-right: 10px;
+}
+
+.dropdown-checkbox:hover .dropdown-checkbox-content {
+    display: block;
+}

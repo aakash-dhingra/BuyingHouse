@@ -42,8 +42,8 @@ module.exports = (sequelize, DataTypes) => {
 
   QualityAssurance.associate = function(models) {
     QualityAssurance.belongsTo(models.ClothSample, { foreignKey: 'sample_id' });
-    QualityAssurance.belongsTo(models.User, { foreignKey: 'checked_by' });
-    QualityAssurance.hasMany(models.QualityAssuranceDefect, { foreignKey: 'qa_id' });
+    QualityAssurance.belongsTo(models.User, { foreignKey: 'checked_by',as: 'checkedByUser' });
+    QualityAssurance.hasMany(models.QualityAssuranceDefect, { foreignKey: 'qa_id', as: 'QualityAssuranceDefects' });
   };
 
   return QualityAssurance;

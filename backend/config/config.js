@@ -1,9 +1,10 @@
 module.exports = {
   "development": {
     "username": "postgres",
-    "password": "aakash@663",
-    "database": "cloth_samples_db",
+    "password": "203014",
+    "database": "postgres",
     "host": "127.0.0.1",
+    "port": 5433,
     "dialect": "postgres"
   },
 };
