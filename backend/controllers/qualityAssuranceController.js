@@ -112,21 +112,30 @@ exports.updateQualityAssurance = async (req, res) => {
 
   try {
       // Find the quality assurance record
-      const qualityAssurance = await db.QualityAssurance.findOne({ where: { sample_id, quality_type } });
+      // const qualityAssurance = await db.QualityAssurance.findOne({ where: { sample_id, quality_type } });
 
-      if (!qualityAssurance) {
-          return res.status(404).json({ message: 'Quality assurance record not found' });
-      }
+      // if (!qualityAssurance) {
+      //     return res.status(404).json({ message: 'Quality assurance record not found' });
+      // }
 
       // Update quality assurance status and reason
-      qualityAssurance.status = status;
-      qualityAssurance.rejection_reason = rejection_reason;
-      await qualityAssurance.save();
+      // qualityAssurance.status = status;
+      // qualityAssurance.rejection_reason = rejection_reason;
+      // await qualityAssurance.save();
 
+      const qualityAssurance = await db.QualityAssurance.create({
+        sample_id,
+        quality_type,
+        status,
+        rejection_reason,
+        checked_by: req.session.user.user_id,
+        checked_date: new Date()
+    });
+      
       const clothSample = await db.ClothSample.findOne({where:{sample_id}});
       if(clothSample){
         console.log(clothSample);
-        await db.ClothSample.update({ status: 'rejected' }, { where: { sample_id } });
+        await db.ClothSample.update({ status}, { where: { sample_id } });
       }
 
       // If rejected, update defects

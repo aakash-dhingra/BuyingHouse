@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.ENUM('vendor', 'buying_house'),
       allowNull: false
-    }
+  },
+  approved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+  }
   }, {
     tableName: 'Users',
     timestamps: false

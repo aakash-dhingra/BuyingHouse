@@ -6,7 +6,9 @@ exports.createClothSample = [
   upload.single('image'),
   async (req, res) => {
     try {
+      // console.log("Request:::::::   ",req.body);
       const { sample_reference_id, version, vendor_id, sub_brand_id, style, color, sample_quantity, season, quality_type } = req.body;
+
       const image = req.file ? req.file.buffer : null;
 
       const newClothSample = await db.ClothSample.create({
@@ -22,6 +24,11 @@ exports.createClothSample = [
         upload_date: new Date(),
         image
       });
+
+      // const newQualityAssurance = awaitdb.QualityAssurance.create({
+      //   sample_reference_id,
+
+      // })
 
       res.status(201).json({ message: 'Cloth sample created successfully', clothSample: newClothSample });
     } catch (error) {
@@ -117,6 +124,7 @@ exports.getClothSamplesByVendor = async (req, res) => {
 exports.getAllClothSamples = async (req, res) => {
   try {
       const { status, reference_id } = req.query;
+      console.log("Request:::::::::::::    ",status);
       const limit = parseInt(req.query.limit) || 10;
       const offset = parseInt(req.query.offset) || 0;
       const queryOptions = {
@@ -213,5 +221,56 @@ exports.getClothSampleByReferenceId = async (req, res) => {
   } catch (error) {
       console.error('Error fetching cloth sample:', error);
       res.status(500).json({ message: 'Error fetching cloth sample', error: error.message });
+  }
+};
+
+
+exports.getRejectedSamples = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+      const offset = parseInt(req.query.offset) || 0;
+      const rejectedSamples = await db.ClothSample.findAll({
+          where: { status: 'rejected' },
+          include: [
+              {
+                  model: db.QualityAssurance,
+                  as: 'QualityAssurances',
+                  where: { status: 'rejected' },
+                  include: [
+                      {
+                          model: db.QualityAssuranceDefects,
+                          as: 'QualityAssuranceDefects',
+                          include: [
+                              {
+                                  model: db.Defect,
+                                  attributes: ['name']
+                              }
+                          ]
+                      },
+                      {
+                          model: db.User,
+                          as: 'checkedByUser',
+                          attributes: ['username']
+                      }
+                  ]
+              },
+              {
+                  model: db.Vendor,
+                  attributes: ['name']
+              }
+          ],
+          limit: limit,
+          offset: offset
+      });
+      // Convert BLOB data to base64
+      clothSamples.forEach(sample => {
+        if (sample.image) {
+            sample.image = sample.image.toString('base64');
+        }
+    });
+      res.status(200).json(rejectedSamples);
+  } catch (error) {
+      console.error('Error fetching rejected samples:', error);
+      res.status(500).json({ message: 'Error fetching rejected samples', error: error.message });
   }
 };

@@ -14,10 +14,11 @@ exports.register = async (req, res) => {
     const { username, password, role, vendorName } = req.body;
   
     try {
-      const newUser = await db.User.create({ username, password, role });
+      const newUser = await db.User.create({ username, password, role, approved: false });
   
       if (role === 'vendor' && vendorName) {
         const newVendor = await db.Vendor.create({
+          vendor_id: newUser.user_id,
           name: vendorName,
           contact_info: `Vendor contact info for ${username}`
         });
@@ -39,6 +40,9 @@ exports.login = async (req, res) => {
     if (!user || user.password !== password) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
+    if (!user.approved) {
+      return res.status(403).json({ message: 'User not approved. Please contact the admin.' });
+  }
 
     req.session.user = {
       user_id: user.user_id,

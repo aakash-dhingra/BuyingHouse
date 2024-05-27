@@ -138,6 +138,9 @@ body {
     background-attachment: fixed;
 }
 
+.admin{
+    background-color: #f7f1e6;
+}
 
 body::before {
     content: '';

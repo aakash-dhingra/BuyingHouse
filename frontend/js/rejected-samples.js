@@ -52,9 +52,11 @@ function displaySamples(samples) {
     tableBody.innerHTML = '';
 
     samples.forEach(sample => {
-        const qualityAssurance = sample.QualityAssurances && sample.QualityAssurances[0] ? sample.QualityAssurances[0] : null;
+        const qualityAssurance = sample.QualityAssurances ? sample.QualityAssurances[0] : null;
         const defects = qualityAssurance && qualityAssurance.QualityAssuranceDefects ? qualityAssurance.QualityAssuranceDefects.map(defect => defect.defect_id).join(', ') : 'N/A';
         const row = document.createElement('tr');
+        console.log("defects:::::   ",qualityAssurance);
+        console.log("user::::::   ",qualityAssurance.checkedByUser.username );
         row.innerHTML = `
             <td>${sample.sample_reference_id}</td>
             <td>${sample.style}</td>
@@ -66,7 +68,6 @@ function displaySamples(samples) {
             <td>${sample.Vendor ? sample.Vendor.name : 'N/A'}</td>
             <td>${new Date(sample.upload_date).toLocaleDateString()}</td>
             <td>${qualityAssurance && qualityAssurance.checkedByUser ? qualityAssurance.checkedByUser.username : 'N/A'}</td>
-            <td>${defects}</td>
         `;
         tableBody.appendChild(row);
     });

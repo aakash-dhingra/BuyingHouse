@@ -25,8 +25,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
+  as: 'QualityAssuranceDefect',
+
+
   QualityAssuranceDefect.associate = function(models) {
-    QualityAssuranceDefect.belongsTo(models.QualityAssurance, { foreignKey: 'qa_id' });
+    QualityAssuranceDefect.belongsTo(models.QualityAssurance, { foreignKey: 'qa_id' });                
     QualityAssuranceDefect.belongsTo(models.Defect, { foreignKey: 'defect_id' });
   };
 

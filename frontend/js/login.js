@@ -18,6 +18,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         localStorage.setItem('user', JSON.stringify(result.user));
         if(result.user.role === 'vendor'){
         window.location.href = 'vendor-dashboard.html';
+        }else if(result.user.role === 'admin'){
+            window.location.href = 'admin.html';
         }else{
             window.location.href = 'quality-assurance-dashboard.html'; 
         }

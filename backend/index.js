@@ -34,6 +34,7 @@ const qualityAssuranceRoutes = require('./routes/qualityAssuranceRoutes');
 const qaDashboard = require('./routes/qaDashboardRoutes');
 const qualityAssuranceDefectRoutes = require('./routes/qualityAssuranceDefectRoutes');
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 app.use(cors());
 // Use routes
 // app.use('/users', userRoutes);
@@ -45,6 +46,7 @@ app.use('/qualityassurances', qualityAssuranceRoutes);
 app.use('/qualityassurancedefects', qualityAssuranceDefectRoutes);
 app.use('/qa-dashboard', qaDashboard);
 app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
 
 // Set up Swagger
 swaggerSetup(app);
