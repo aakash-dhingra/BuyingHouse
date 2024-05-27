@@ -1,49 +1,93 @@
-document.getElementById('dashboardLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('submitSample').style.display = 'none';
-  });
-  
-  document.getElementById('submitSampleLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('submitSample').style.display = 'block';
-  });
-  
-  document.getElementById('submitSampleForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-      alert('You must be logged in to submit a cloth sample');
-      window.location.href = '/login.html';
-      return;
-    }
-  
-    const sampleReferenceId = document.getElementById('sampleReferenceId').value;
-    const version = document.getElementById('version').value;
-    const style = document.getElementById('style').value;
-    const color = document.getElementById('color').value;
-    const sampleQuantity = document.getElementById('sampleQuantity').value;
-    const season = document.getElementById('season').value;
-    const image = document.getElementById('image').files[0]; // Assuming you are using file input for image
-  
-    const formData = new FormData();
-    formData.append('sample_reference_id', sampleReferenceId);
-    formData.append('vendor_id', user.user_id);
-    formData.append('version', version);
-    formData.append('style', style);
-    formData.append('color', color);
-    formData.append('sample_quantity', sampleQuantity);
-    formData.append('season', season);
-    formData.append('image', image);
-  
-    const response = await fetch('/clothsamples', {
-      method: 'POST',
-      body: formData
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+      const response = await fetch('/vendors/stats', {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+      const stats = await response.json();
+      displayCharts(stats);
+
+      const defectStatsResponse = await fetch('/vendors/defect-stats', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
-  
-    const result = await response.json();
-    alert(result.message);
+    const defectStatsData = await defectStatsResponse.json();
+    displayDefectStatsChart(defectStatsData);
+
+  } catch (error) {
+      console.error('Error fetching vendor stats:', error);
+  }
+});
+
+function displayCharts(stats) {
+  const ctxBar = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+          labels: ['Accepted', 'Rejected'],
+          datasets: [{
+              label: 'Cloth Samples',
+              data: [stats.acceptedSamples, stats.rejectedSamples],
+              backgroundColor: ['#4caf50', '#f44336'],
+              borderColor: ['#388e3c', '#d32f2f'],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
   });
-  
+}
+//   const ctxPie = document.getElementById('pieChart').getContext('2d');
+//   const pieChart = new Chart(ctxPie, {
+//       type: 'pie',
+//       data: {
+//           labels: ['Accepted', 'Rejected'],
+//           datasets: [{
+//               data: [stats.acceptedSamples, stats.rejectedSamples],
+//               backgroundColor: ['#4caf50', '#f44336'],
+//               hoverOffset: 4
+//           }]
+//       },
+//       options: {
+//           responsive: true
+//       }
+//   });
+
+function displayDefectStatsChart(data) {
+    const ctx = document.getElementById('defectStatsChart').getContext('2d');
+
+    const labels = data.map(d => d.defect_name);
+    const counts = data.map(d => d.count);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Defects',
+                data: counts,
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}

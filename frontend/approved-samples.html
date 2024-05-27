@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Approved Cloth Samples</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="main">
+        <div class="navbar">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li>
+                <a href="javascript:void(0);" class="collapsible"
+                  >Samples</a
+                >
+                <ul class="nested">
+                  <li><a href="pending-samples.html">Pending Samples</a></li>
+                  <li><a href="approved-samples.html">Approved Samples</a></li>
+                  <li><a href="rejected-samples.html">Rejected Samples</a></li>
+                  
+                </ul>
+              </li>
+              <li><a href="pareto-chart.html">Pareto Analysis</a></li>
+              <li>
+                <a href="quality-assurance-dashboard.html"
+                  >Quality Assurance Dashboard</a
+                >
+              </li>
+              <li>
+                <button id="logoutButton" class="logout-button">Logout</button>
+              </li>
+            </ul>
+          </div>
+      <div class="container">
+        <h1>Approved Cloth Samples</h1>
+        <table id="samplesTable">
+          <thead>
+            <tr>
+                <th>Reference ID</th>
+                <th>Style</th>
+                <th>Color</th>
+                <th>Season</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Quality Type</th>
+                <th>Vendor</th>
+                <th>Uploaded Date</th>
+                <th>Approved By</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="pagination">
+            <button id="prevPage">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Next</button>
+        </div>
+      </div>
+    </div>
+    <script src="js/approved-samples.js"></script>
+    <script src="js/navbar.js"></script>
+  </body>
+</html>

@@ -31,6 +31,7 @@ const subBrandRoutes = require('./routes/subBrandsRoutes');
 const clothSampleRoutes = require('./routes/clothSampleRoutes');
 const defectRoutes = require('./routes/defectRoutes');
 const qualityAssuranceRoutes = require('./routes/qualityAssuranceRoutes');
+const qaDashboard = require('./routes/qaDashboardRoutes');
 const qualityAssuranceDefectRoutes = require('./routes/qualityAssuranceDefectRoutes');
 const authRoutes = require('./routes/authRoutes');
 app.use(cors());
@@ -42,6 +43,7 @@ app.use('/clothsamples', clothSampleRoutes);
 app.use('/defects', defectRoutes);
 app.use('/qualityassurances', qualityAssuranceRoutes);
 app.use('/qualityassurancedefects', qualityAssuranceDefectRoutes);
+app.use('/qa-dashboard', qaDashboard);
 app.use('/auth', authRoutes);
 
 // Set up Swagger
@@ -50,7 +52,7 @@ swaggerSetup(app);
 
 // Serve the main HTML file for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/login.html'));
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 
